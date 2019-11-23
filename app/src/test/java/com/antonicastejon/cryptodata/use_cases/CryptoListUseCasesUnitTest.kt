@@ -1,6 +1,6 @@
 package com.antonicastejon.cryptodata.use_cases
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.antonicastejon.cryptodata.common.cryptoPOJOmodel
 import com.antonicastejon.cryptodata.common.cryptoViewModelFrom
 import com.antonicastejon.cryptodata.common.mock

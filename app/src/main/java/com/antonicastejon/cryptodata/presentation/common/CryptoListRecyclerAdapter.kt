@@ -1,10 +1,10 @@
 package com.antonicastejon.cryptodata.presentation.common
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.antonicastejon.cryptodata.R
 import com.antonicastejon.cryptodata.common.formatTo
 import com.antonicastejon.cryptodata.domain.CryptoViewModel
@@ -12,15 +12,13 @@ import com.antonicastejon.cryptodata.domain.emptyCryptoViewModel
 import com.antonicastejon.cryptodata.presentation.widgets.paginatedRecyclerView.PaginationAdapter
 import kotlinx.android.synthetic.main.crypto_list_item.view.*
 
-/**
- * Created by Antoni Castejón on 07/01/2018.
- */
 
 private const val DECIMALS_FIAT = 4
 private const val DECIMALS_BTC = 7
 private const val DECIMALS_CHANGE = 2
 
 class CryptoListRecyclerAdapter : PaginationAdapter<CryptoViewModel>() {
+
     override fun addLoadingViewFooter() {
         addLoadingViewFooter(emptyCryptoViewModel)
     }

@@ -4,16 +4,17 @@ import android.os.Parcel
 import android.os.Parcelable
 import io.reactivex.Single
 
-/**
- * Created by Antoni Castejón on 31/12/2017.
- */
+val cryptoListUseCasesDep by lazy {
+    CryptoListInteractor()
+}
+
 interface CryptoListUseCases {
-    fun getCryptoListBy(page: Int) : Single<List<CryptoViewModel>>
+    fun getCryptoListBy(page: Int): Single<List<CryptoViewModel>>
 }
 
 val emptyCryptoViewModel = CryptoViewModel()
 
-data class CryptoViewModel(val id: String, val name: String, val symbol: String, val rank: Int, val priceFiat: Float, val priceBtc: Float, val change: Float)
+data class CryptoViewModel(val id: String?, val name: String?, val symbol: String?, val rank: Int, val priceFiat: Float, val priceBtc: Float, val change: Float)
     : Parcelable {
 
     constructor() : this("", "", "", 0, 0f, 0f, 0f)
@@ -27,8 +28,7 @@ data class CryptoViewModel(val id: String, val name: String, val symbol: String,
             parcel.readInt(),
             parcel.readFloat(),
             parcel.readFloat(),
-            parcel.readFloat()) {
-    }
+            parcel.readFloat())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

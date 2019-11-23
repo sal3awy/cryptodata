@@ -1,7 +1,7 @@
 package com.antonicastejon.cryptodata.viewmodels
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.antonicastejon.cryptodata.common.limitCryptoListSizeArrayEmptyCryptoViewModel
 import com.antonicastejon.cryptodata.common.mock
 import com.antonicastejon.cryptodata.common.whenever

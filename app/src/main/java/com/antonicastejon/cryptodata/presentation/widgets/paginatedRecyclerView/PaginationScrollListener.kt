@@ -1,12 +1,8 @@
 package com.antonicastejon.cryptodata.presentation.widgets.paginatedRecyclerView
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-/**
- * Created by Antoni Castejón
- * 20/01/2018.
- */
 
 private val TAG: String = PaginationScrollListener::class.java.name
 
@@ -16,7 +12,7 @@ abstract class PaginationScrollListener(val layoutManager: LinearLayoutManager) 
     abstract fun isLastPage(): Boolean
     abstract fun isLoading(): Boolean
 
-    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
         if (allowLoadMore() && isNearToLastItem(layoutManager)) {
