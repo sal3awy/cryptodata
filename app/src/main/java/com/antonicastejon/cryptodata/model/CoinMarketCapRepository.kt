@@ -1,11 +1,11 @@
 package com.antonicastejon.cryptodata.model
 
-import io.reactivex.Single
+import retrofit2.Response
 
 val coinMarketCapRepositoryDep by lazy {
     CoinMarketCapDownloader()
 }
 
 interface CoinMarketCapRepository {
-    fun getCryptoList(page: Int, limit: Int): Single<List<Crypto>>
+    suspend fun getCryptoList(page: Int, limit: Int): Response<List<Crypto>>
 }

@@ -9,6 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.antonicastejon.cryptodata.R
+import retrofit2.HttpException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
 
@@ -57,13 +61,20 @@ fun Fragment.showMessage(error: Throwable) {
 
 fun Activity.showMessage(error: Throwable) {
     when (error) {
-        is InternalServerErrorException -> showShortToast(R.string.error_occurred)
-        is TimeoutException -> showShortToast(R.string.time_out_message)
-        is ServerUnreachableException -> showShortToast(R.string.no_connection)
-        is UnAuthorizedException -> {
-            /* SessionManager(AppController.getContext()).clearLoginSession()
+        is SocketTimeoutException, is TimeoutException -> showShortToast(R.string.time_out_message)
+        is UnknownHostException, is ConnectException -> showShortToast(R.string.no_connection)
+        is HttpException -> {
+            when {
+                error.code() == 401 -> {
+                    /* SessionManager(AppController.getContext()).clearLoginSession()
              startActivity(Intent(this, LoginActivity::class.java))
              showShortToast(R.string.session)*/
+                }
+                else -> {
+                    showShortToast(R.string.error_occurred)
+                }
+            }
         }
+        else -> showShortToast(R.string.error_occurred)
     }
 }

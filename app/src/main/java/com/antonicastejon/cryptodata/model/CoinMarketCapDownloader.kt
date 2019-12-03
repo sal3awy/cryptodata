@@ -1,7 +1,7 @@
 package com.antonicastejon.cryptodata.model
 
-import io.reactivex.Single
+import retrofit2.Response
 
 class CoinMarketCapDownloader(private val coinMarketCapApi: CoinMarketCapApi = coinMarketCapApiDep) : CoinMarketCapRepository {
-    override fun getCryptoList(page: Int, limit: Int): Single<List<Crypto>> = coinMarketCapApi.getCryptoList(page * limit, limit)
+    override suspend fun getCryptoList(page: Int, limit: Int): Response<List<Crypto>> = coinMarketCapApi.getCryptoList(page * limit, limit)
 }

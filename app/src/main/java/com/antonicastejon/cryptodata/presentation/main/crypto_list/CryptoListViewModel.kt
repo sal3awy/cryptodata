@@ -1,22 +1,31 @@
 package com.antonicastejon.cryptodata.presentation.main.crypto_list
 
 import androidx.lifecycle.MutableLiveData
-import com.antonicastejon.cryptodata.common.androidMainThreadScheduler
-import com.antonicastejon.cryptodata.common.schedulerIo
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.antonicastejon.cryptodata.common.dispatcherIoDep
+import com.antonicastejon.cryptodata.common.dispatcherMainDep
 import com.antonicastejon.cryptodata.domain.CryptoListUseCases
 import com.antonicastejon.cryptodata.domain.CryptoViewModel
 import com.antonicastejon.cryptodata.domain.LIMIT_CRYPTO_LIST
 import com.antonicastejon.cryptodata.domain.cryptoListUseCasesDep
-import com.antonicastejon.cryptodata.presentation.common.BaseViewModel
-import com.antonicastejon.cryptodata.common.addTo
-import io.reactivex.Scheduler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 private val TAG = CryptoListViewModel::class.java.name
 
-class CryptoListViewModel(private val cryptoListUseCases: CryptoListUseCases = cryptoListUseCasesDep, private val subscribeOnScheduler: Scheduler = schedulerIo, private val observeOnScheduler: Scheduler = androidMainThreadScheduler) : BaseViewModel() {
+class CryptoListViewModel(private val cryptoListUseCases: CryptoListUseCases = cryptoListUseCasesDep, private val dispatcherIo: CoroutineDispatcher = dispatcherIoDep, private val dispatcherMain: CoroutineDispatcher = dispatcherMainDep) : ViewModel() {
 
     val stateLiveData = MutableLiveData<CryptoListState>()
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.launch(dispatcherMain) {
+            onError(throwable)
+        }
+    }
 
     init {
         stateLiveData.value = DefaultState(0, false, emptyList())
@@ -42,10 +51,13 @@ class CryptoListViewModel(private val cryptoListUseCases: CryptoListUseCases = c
     }
 
     private fun getCryptoList(page: Int) {
-        cryptoListUseCases.getCryptoListBy(page)
-                .subscribeOn(subscribeOnScheduler)
-                .observeOn(observeOnScheduler)
-                .subscribe(this::onCryptoListReceived, this::onError).addTo(disposable)
+        viewModelScope.launch(dispatcherIo + coroutineExceptionHandler) {
+            cryptoListUseCases.getCryptoListBy(page)?.let {
+                withContext(dispatcherMain) {
+                    onCryptoListReceived(it)
+                }
+            }
+        }
     }
 
     private fun onCryptoListReceived(cryptoList: List<CryptoViewModel>) {

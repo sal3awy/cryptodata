@@ -1,17 +1,18 @@
 package com.antonicastejon.cryptodata.model
 
 import com.google.gson.annotations.SerializedName
-import io.reactivex.Single
+import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-val coinMarketCapApiDep : CoinMarketCapApi by lazy {
+val coinMarketCapApiDep: CoinMarketCapApi by lazy {
     retrofitClient.create(CoinMarketCapApi::class.java)
 }
 
 interface CoinMarketCapApi {
     @GET("v1/ticker/")
-    fun getCryptoList(@Query("start") start: Int, @Query("limit") limit: Int): Single<List<Crypto>>
+    suspend fun getCryptoList(@Query("start") start: Int, @Query("limit") limit: Int): Response<List<Crypto>>
 }
 
 

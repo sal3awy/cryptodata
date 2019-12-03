@@ -1,9 +1,10 @@
 package com.antonicastejon.cryptodata.common
 
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-val androidMainThreadScheduler: Scheduler = AndroidSchedulers.mainThread()
+val dispatcherMainDep: CoroutineDispatcher = Dispatchers.Main
 
-val schedulerIo: Scheduler = Schedulers.io()
+val dispatcherIoDep: CoroutineDispatcher = Dispatchers.IO
+
+val dispatcherDefaultDep: CoroutineDispatcher = Dispatchers.Default

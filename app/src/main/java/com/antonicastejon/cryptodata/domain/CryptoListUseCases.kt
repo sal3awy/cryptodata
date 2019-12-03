@@ -2,14 +2,13 @@ package com.antonicastejon.cryptodata.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-import io.reactivex.Single
 
 val cryptoListUseCasesDep by lazy {
     CryptoListInteractor()
 }
 
 interface CryptoListUseCases {
-    fun getCryptoListBy(page: Int): Single<List<CryptoViewModel>>
+    suspend fun getCryptoListBy(page: Int): List<CryptoViewModel>?
 }
 
 val emptyCryptoViewModel = CryptoViewModel()
