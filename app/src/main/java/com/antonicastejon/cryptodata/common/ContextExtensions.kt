@@ -64,12 +64,13 @@ fun Activity.showMessage(error: Throwable) {
         is SocketTimeoutException, is TimeoutException -> showShortToast(R.string.time_out_message)
         is UnknownHostException, is ConnectException -> showShortToast(R.string.no_connection)
         is HttpException -> {
-            when {
-                error.code() == 401 -> {
+            when (error.code()) {
+                401 -> {
                     /* SessionManager(AppController.getContext()).clearLoginSession()
              startActivity(Intent(this, LoginActivity::class.java))
              showShortToast(R.string.session)*/
                 }
+                429 -> showShortToast(R.string.error_too_many_requests)
                 else -> {
                     showShortToast(R.string.error_occurred)
                 }

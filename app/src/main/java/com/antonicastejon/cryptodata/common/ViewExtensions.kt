@@ -9,8 +9,6 @@ import android.widget.EditText
 import androidx.core.content.ContextCompat
 import com.antonicastejon.cryptodata.R
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 
 fun View.toggleVisibility(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
@@ -28,22 +26,4 @@ fun View.showSnackbar(message: String) {
         sbView.setBackgroundColor(ContextCompat.getColor(this.context, R.color.colorAccent))
         snackBar.show()
     }
-}
-
-fun EditText.searchObservable(): Observable<String> {
-    val subject = PublishSubject.create<String>()
-    addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-            subject.onNext(text.toString())
-        }
-
-        override fun afterTextChanged(s: Editable) {
-//            subject.onComplete()
-        }
-    })
-
-    return subject
 }
