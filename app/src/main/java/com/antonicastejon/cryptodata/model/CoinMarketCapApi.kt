@@ -1,7 +1,7 @@
 package com.antonicastejon.cryptodata.model
 
+import com.antonicastejon.cryptodata.model.common.retrofitClient
 import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

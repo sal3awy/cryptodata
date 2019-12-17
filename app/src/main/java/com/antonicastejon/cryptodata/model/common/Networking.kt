@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.model
+package com.antonicastejon.cryptodata.model.common
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
