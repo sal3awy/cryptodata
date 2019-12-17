@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.common
+package com.antonicastejon.cryptodata.presentation.common
 
 import android.app.Activity
 import android.content.Context
@@ -9,6 +9,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.antonicastejon.cryptodata.R
+import com.antonicastejon.cryptodata.domain.common.InternalServerErrorException
+import com.antonicastejon.cryptodata.domain.common.UnAuthorizedException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
 
@@ -58,8 +63,8 @@ fun Fragment.showMessage(error: Throwable) {
 fun Activity.showMessage(error: Throwable) {
     when (error) {
         is InternalServerErrorException -> showShortToast(R.string.error_occurred)
-        is TimeoutException -> showShortToast(R.string.time_out_message)
-        is ServerUnreachableException -> showShortToast(R.string.no_connection)
+        is TimeoutException, is SocketTimeoutException -> showShortToast(R.string.time_out_message)
+        is UnknownHostException, is ConnectException -> showShortToast(R.string.no_connection)
         is UnAuthorizedException -> {
             /* SessionManager(AppController.getContext()).clearLoginSession()
              startActivity(Intent(this, LoginActivity::class.java))

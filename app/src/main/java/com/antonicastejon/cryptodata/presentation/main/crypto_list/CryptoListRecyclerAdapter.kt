@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.presentation.common
+package com.antonicastejon.cryptodata.presentation.main.crypto_list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.antonicastejon.cryptodata.R
-import com.antonicastejon.cryptodata.common.formatTo
+import com.antonicastejon.cryptodata.domain.common.formatTo
 import com.antonicastejon.cryptodata.domain.CryptoViewModel
 import com.antonicastejon.cryptodata.domain.emptyCryptoViewModel
 import com.antonicastejon.cryptodata.presentation.widgets.paginatedRecyclerView.PaginationAdapter

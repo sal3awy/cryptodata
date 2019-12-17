@@ -1,6 +1,6 @@
 package com.antonicastejon.cryptodata.domain
 
-import com.antonicastejon.cryptodata.common.mapNetworkErrors
+import com.antonicastejon.cryptodata.domain.common.mapNetworkErrors
 import com.antonicastejon.cryptodata.model.CoinMarketCapRepository
 import com.antonicastejon.cryptodata.model.Crypto
 import com.antonicastejon.cryptodata.model.coinMarketCapRepositoryDep

@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.common
+package com.antonicastejon.cryptodata.presentation.common
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

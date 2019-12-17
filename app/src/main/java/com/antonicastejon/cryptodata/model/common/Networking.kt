@@ -1,5 +1,6 @@
-package com.antonicastejon.cryptodata.model
+package com.antonicastejon.cryptodata.model.common
 
+import com.antonicastejon.cryptodata.model.CoinMarketCapApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

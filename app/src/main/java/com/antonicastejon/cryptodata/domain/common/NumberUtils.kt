@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.common
+package com.antonicastejon.cryptodata.domain.common
 
 
 fun Float.formatTo(numberOfDecimals: Int) =

@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.common
+package com.antonicastejon.cryptodata.domain.common
 
 import io.reactivex.Completable
 import io.reactivex.Scheduler
@@ -8,10 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import java.util.concurrent.TimeoutException
 
 fun <T> Single<T>.retryIfOffline(): Single<T> {
     return retry { err ->
@@ -24,8 +21,6 @@ fun <T> Single<T>.retryIfOffline(): Single<T> {
 fun <T> Single<T>.mapNetworkErrors(): Single<T> {
     return onErrorResumeNext { error ->
         when (error) {
-            is SocketTimeoutException -> Single.error(TimeoutException())
-            is UnknownHostException, is ConnectException -> Single.error(ServerUnreachableException())
             is HttpException -> {
                 when {
                     error.code() == 401 -> Single.error(UnAuthorizedException())
@@ -40,8 +35,6 @@ fun <T> Single<T>.mapNetworkErrors(): Single<T> {
 fun Completable.mapNetworkErrors(): Completable {
     return onErrorResumeNext { error ->
         when (error) {
-            is SocketTimeoutException -> Completable.error(TimeoutException())
-            is UnknownHostException, is ConnectException -> Completable.error(ServerUnreachableException())
             is HttpException -> {
                 when {
                     error.code() == 401 -> Completable.error(UnAuthorizedException())

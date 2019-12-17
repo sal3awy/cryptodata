@@ -9,9 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.antonicastejon.cryptodata.R
-import com.antonicastejon.cryptodata.common.showMessage
+import com.antonicastejon.cryptodata.presentation.common.showMessage
+import com.antonicastejon.cryptodata.domain.CryptoViewModel
 import com.antonicastejon.cryptodata.domain.LIMIT_CRYPTO_LIST
-import com.antonicastejon.cryptodata.presentation.common.CryptoListRecyclerAdapter
+import com.antonicastejon.cryptodata.presentation.common.*
 import com.antonicastejon.cryptodata.presentation.widgets.paginatedRecyclerView.PaginationScrollListener
 import kotlinx.android.synthetic.main.crypto_list_fragment.*
 import kotlinx.android.synthetic.main.crypto_list_fragment.view.*
@@ -31,27 +32,27 @@ class CryptoListFragment : Fragment() {
     private var isLoading = false
     private var isLastPage = false
 
-    private val stateObserver = Observer<CryptoListState> { state ->
+    private val stateObserver = Observer<ViewStateWithPagination<List<CryptoViewModel>>> { state ->
         state?.let {
             isLastPage = state.loadedAllItems
             when (state) {
-                is DefaultState -> {
+                is DefaultPageState -> {
                     isLoading = false
                     swipeRefreshLayout.isRefreshing = false
                     cryptoListAdapter.updateData(it.data)
                 }
-                is LoadingState -> {
+                is LoadingPageState -> {
                     swipeRefreshLayout.isRefreshing = true
                     isLoading = true
                 }
                 is PaginatingState -> {
                     isLoading = true
                 }
-                is ErrorState -> {
+                is ErrorPageState -> {
                     isLoading = false
                     swipeRefreshLayout.isRefreshing = false
                     cryptoListAdapter.removeLoadingViewFooter()
-                    showMessage((it as ErrorState).error)
+                    showMessage((it as ErrorPageState).error)
                 }
             }
         }

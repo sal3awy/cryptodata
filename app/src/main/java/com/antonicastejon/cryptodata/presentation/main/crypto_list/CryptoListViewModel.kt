@@ -1,14 +1,14 @@
 package com.antonicastejon.cryptodata.presentation.main.crypto_list
 
 import androidx.lifecycle.MutableLiveData
-import com.antonicastejon.cryptodata.common.androidMainThreadScheduler
-import com.antonicastejon.cryptodata.common.schedulerIo
+import com.antonicastejon.cryptodata.domain.common.addTo
+import com.antonicastejon.cryptodata.presentation.common.androidMainThreadScheduler
+import com.antonicastejon.cryptodata.presentation.common.schedulerIo
 import com.antonicastejon.cryptodata.domain.CryptoListUseCases
 import com.antonicastejon.cryptodata.domain.CryptoViewModel
 import com.antonicastejon.cryptodata.domain.LIMIT_CRYPTO_LIST
 import com.antonicastejon.cryptodata.domain.cryptoListUseCasesDep
-import com.antonicastejon.cryptodata.presentation.common.BaseViewModel
-import com.antonicastejon.cryptodata.common.addTo
+import com.antonicastejon.cryptodata.presentation.common.*
 import io.reactivex.Scheduler
 
 
@@ -16,29 +16,29 @@ private val TAG = CryptoListViewModel::class.java.name
 
 class CryptoListViewModel(private val cryptoListUseCases: CryptoListUseCases = cryptoListUseCasesDep, private val subscribeOnScheduler: Scheduler = schedulerIo, private val observeOnScheduler: Scheduler = androidMainThreadScheduler) : BaseViewModel() {
 
-    val stateLiveData = MutableLiveData<CryptoListState>()
+    val stateLiveData = MutableLiveData<ViewStateWithPagination<List<CryptoViewModel>>>()
 
     init {
-        stateLiveData.value = DefaultState(0, false, emptyList())
+        stateLiveData.value = DefaultPageState(0, false, emptyList())
     }
 
     fun updateCryptoList() {
         val pageNum = obtainCurrentPageNum()
         stateLiveData.value = if (pageNum == 0)
-            LoadingState(pageNum, false, obtainCurrentData())
+            LoadingPageState(pageNum, false, obtainCurrentData())
         else
             PaginatingState(pageNum, false, obtainCurrentData())
         getCryptoList(pageNum)
     }
 
     fun resetCryptoList() {
-        stateLiveData.value = LoadingState(0, false, emptyList())
+        stateLiveData.value = LoadingPageState(0, false, emptyList())
         updateCryptoList()
     }
 
     fun restoreCryptoList() {
         val pageNum = obtainCurrentPageNum()
-        stateLiveData.value = DefaultState(pageNum, false, obtainCurrentData())
+        stateLiveData.value = DefaultPageState(pageNum, false, obtainCurrentData())
     }
 
     private fun getCryptoList(page: Int) {
@@ -53,12 +53,12 @@ class CryptoListViewModel(private val cryptoListUseCases: CryptoListUseCases = c
         val currentPageNum = obtainCurrentPageNum() + 1
         val areAllItemsLoaded = cryptoList.size < LIMIT_CRYPTO_LIST
         currentCryptoList.addAll(cryptoList)
-        stateLiveData.value = DefaultState(currentPageNum, areAllItemsLoaded, currentCryptoList)
+        stateLiveData.value = DefaultPageState(currentPageNum, areAllItemsLoaded, currentCryptoList)
     }
 
     private fun onError(error: Throwable) {
         val pageNum = stateLiveData.value?.pageNum ?: 0
-        stateLiveData.value = ErrorState(error, pageNum, obtainCurrentLoadedAllItems(), obtainCurrentData())
+        stateLiveData.value = ErrorPageState(error, pageNum, obtainCurrentLoadedAllItems(), obtainCurrentData())
     }
 
     private fun obtainCurrentPageNum() = stateLiveData.value?.pageNum ?: 0

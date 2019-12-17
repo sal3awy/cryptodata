@@ -1,4 +1,4 @@
-package com.antonicastejon.cryptodata.common
+package com.antonicastejon.cryptodata.presentation.common
 
 import android.graphics.Color
 import android.text.Editable

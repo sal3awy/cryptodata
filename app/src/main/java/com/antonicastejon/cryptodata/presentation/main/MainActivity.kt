@@ -3,7 +3,7 @@ package com.antonicastejon.cryptodata.presentation.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.antonicastejon.cryptodata.R
-import com.antonicastejon.cryptodata.common.replaceFragment
+import com.antonicastejon.cryptodata.presentation.common.replaceFragment
 import com.antonicastejon.cryptodata.presentation.main.crypto_list.CRYPTO_LIST_FRAGMENT_TAG
 import com.antonicastejon.cryptodata.presentation.main.crypto_list.newCryptoListFragment
 
